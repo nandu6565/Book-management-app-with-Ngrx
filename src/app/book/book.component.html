@@ -80,26 +80,32 @@
   </button>
 </form>
 
-<div *ngIf="books.length > 0" class="book-table-container mt-4">
-  <h3 class="text-center"><b>Existing Books:</b></h3>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let book of books">
-        <td>{{ book.title }}</td>
-        <td>{{ book.author }}</td>
-        <td>
-          <button class="btn btn-danger btn-sm" (click)="deleteBook(book.id)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div *ngIf="books$ | async as books; else noBooks">
+  <div *ngIf="books.length > 0" class="book-table-container mt-4">
+    <h3 class="text-center"><b>Existing Books:</b></h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books">
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="removeBook(book.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<ng-template #noBooks>
+  <p class="text-center mt-4">No books available.</p>
+</ng-template>
